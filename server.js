@@ -4,15 +4,36 @@ var path = require('path');
 
 var app = express();
 
+var articles= {
 //OBJECT named "articleOne" 
-var articleOne={
-  title:'Article One | Kshitiz',
-  heading: 'Article One',
-  date:'8 January 2020',
-  content:`  <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
-  <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
-   <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p> 
- `
+    'article-one':{
+      title:'Article One | Kshitiz',
+      heading: 'Article One',
+      date:'8 January 2020',
+      content:`  <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p> 
+    `
+    },
+    'article-two':{
+      title:'Article Two | Kshitiz',
+      heading: 'Article Two',
+      date:'8 January 2020',
+      content:`  <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p> 
+    `
+    },
+    'article-three':{
+      title:'Article Three | Kshitiz',
+      heading: 'Article Three',
+      date:'8 January 2020',
+      content:`  <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p>
+      <p>Place the text in this place.Place the text in this place.Place the text in this place.Place the text in this place.</p> 
+    `
+    }
+
 };
 
 //This function recieves the "data" from Object "articleOne" 
@@ -47,6 +68,7 @@ var htmlTemplate = `
     </div>
     ${content};
   </div>
+  
     </body>
 </html>
 
@@ -58,20 +80,21 @@ app.use(morgan('combined'));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-
+/*
 //article-one.html page get displayed by javascript as 
 //string by modified by object(articleOne) and function(createTemplate) 
 app.get('/article-one',function(req,res){
   res.send(createTemplate(articleOne));
-});
+  //Here res.send() recieves the string returned by 
+  //javascript by RETURN STATEMENT to function createTemplate()
+});*/
 
 
-app.get('/article-two',function(req,res){
-  res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-app.get('/article-three',function(req,res){
-  res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+app.get('/:articleName',function(req,res){
+  //articlesName=article-one . This is a feature provided by "express framework"
+  //articles[articleName]== {} content object of article-one 
+  var articleName=req.params.articleName;
+  res.send(createTemplate(articles[articleName]));
 });
 
 app.get('/ui/style.css', function (req, res) {
